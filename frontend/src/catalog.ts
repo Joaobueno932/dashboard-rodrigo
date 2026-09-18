@@ -1,5 +1,5 @@
 import {
-  Leaf,
+  Globe,
   Users,
   ShieldCheck,
   Droplets,
@@ -18,7 +18,7 @@ export const dimensions = [
     id: "ambiental",
     title: "Ambiental",
     description: "Recursos, consumo e impacto ambiental",
-    icon: Leaf,
+    icon: Globe,
     color: "green",
     topics: [
       {
