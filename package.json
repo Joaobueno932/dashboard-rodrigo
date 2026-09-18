@@ -1,1 +1,30 @@
-{"name":"dashboard-indicadores-fiems-workspace","version":"1.0.0","private":true,"scripts":{"dev":"node scripts/dev.mjs","build":"npm --prefix frontend run build","lint":"npm --prefix frontend run lint","typecheck":"npm --prefix frontend run typecheck","test":"npm --prefix frontend test"}}
+{
+  "name": "dashboard-indicadores-fiems-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "npm --prefix frontend run build",
+    "lint": "npm --prefix frontend run lint",
+    "typecheck": "npm --prefix frontend run typecheck",
+    "test": "npm --prefix frontend test",
+    "db:setup": "tsx --env-file-if-exists=.env scripts/db-setup.mts",
+    "admin:hash": "tsx scripts/admin-hash.mts",
+    "test:api": "tsx --env-file-if-exists=.env --test tests/*.test.mts",
+    "netlify:build": "npm run db:setup && npm --prefix frontend ci --no-audit --no-fund && npm --prefix frontend run build",
+    "typecheck:api": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "fflate": "^0.8.3",
+    "ws": "^8.21.3",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@netlify/functions": "^6.0.0",
+    "@types/node": "^26.6.1",
+    "@types/ws": "^8.18.1",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  }
+}

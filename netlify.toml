@@ -1,0 +1,34 @@
+[build]
+  command = "npm run netlify:build"
+  publish = "frontend/dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NPM_FLAGS = "--no-audit --no-fund"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  # A planilha original alimenta a primeira carga da base, quando o banco ainda está vazio.
+  included_files = ["data/source/indicadores.xlsx"]
+
+# A função declara o caminho /api/* e responde antes desta regra;
+# o restante cai no index.html, porque as rotas são resolvidas no navegador.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "same-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+
+# Arquivos com hash no nome nunca mudam de conteúdo.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

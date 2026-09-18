@@ -153,6 +153,60 @@ Os testes Python cobrem a fonte real, indicadores, valores ausentes, novos anos/
 
 Resultados reais e eventuais limitações de execução estão em `docs/validacao.md`.
 
+## Publicação no Netlify
+
+O site publicado usa **Netlify Functions + PostgreSQL (Neon)**: as telas são as mesmas, e a API que
+lê a planilha e guarda os dados roda como função serverless, porque o Netlify não executa Python.
+
+| Parte | No Netlify | No servidor próprio |
+|---|---|---|
+| Interface | `frontend/dist` | `frontend/dist` |
+| API | `netlify/functions/api.mts` (TypeScript) | `backend/app` (FastAPI) |
+| Leitor de planilha | `netlify/lib/parser.ts` | `backend/app/parser.py` |
+| Armazenamento | Postgres/Neon | SQLite em `data/runtime` |
+
+Os dois leitores produzem exatamente o mesmo resultado: `tests/parser.test.mts` compara a saída do
+leitor TypeScript com `data/processed/initial.json`, que é a saída validada do leitor Python, registro
+a registro, incluindo avisos e células de origem. Qualquer divergência quebra o teste.
+
+### Variáveis de ambiente do site
+
+Em **Site configuration → Environment variables**:
+
+| Variável | Obrigatória | Uso |
+|---|---|---|
+| `DATABASE_URL` | sim | Conexão do Neon (a mesma do `.env` local) |
+| `ADMIN_PASSWORD_HASH` | sim | Hash scrypt da senha administrativa; gere com `npm run admin:hash` |
+| `MAX_UPLOAD_MB` | não | Limite de envio; padrão 5, teto prático da plataforma |
+
+`NODE_VERSION` já está no `netlify.toml`. Nenhuma senha em texto puro é enviada ao Netlify.
+
+### Publicação
+
+1. `npm run admin:hash` e guarde o valor gerado.
+2. Conecte o repositório no Netlify e cadastre as variáveis acima.
+3. Publique. O build roda `npm run netlify:build`, que prepara o banco (`db:setup`), instala o
+   frontend e compila. Na primeira publicação, a planilha de `data/source` vira a base ativa; nas
+   seguintes, a base existente é preservada.
+
+A atualização dos indicadores continua sendo feita pela tela de Configurações, com senha, validação,
+confirmação, histórico e backup da versão anterior — agora gravados no Postgres.
+
+O envio é limitado a cerca de 5 MB por requisição, limite da plataforma; a planilha atual tem 1,5 MB.
+Para arquivos maiores, use o servidor próprio.
+
+### Comandos
+
+```bash
+npm run db:setup        # cria as tabelas e, se vazio, carrega a planilha inicial
+npm run admin:hash      # gera ADMIN_PASSWORD_HASH
+npm run test:api        # testes do leitor TypeScript e da API (usa DATABASE_URL)
+npm run typecheck:api   # tipos das funções e scripts
+```
+
+Localmente, `.env` traz `DATABASE_URL` e não vai para o Git. O backend Python continua funcionando
+para desenvolvimento offline, com SQLite, sem depender do banco.
+
 ## Docker (alternativa)
 
 ```bash
