@@ -1,0 +1,13 @@
+services:
+  dashboard:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      MAX_UPLOAD_MB: "10"
+      COOKIE_SECURE: "false"
+    volumes:
+      - fiems-data:/app/data/runtime
+    restart: unless-stopped
+volumes:
+  fiems-data:

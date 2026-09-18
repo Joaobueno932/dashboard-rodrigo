@@ -1,0 +1,1311 @@
+# Contexto
+
+Você receberá como insumos principais:
+
+1. A planilha Excel:
+   `Sistema Indicadores_FIEMS_2026 6.xlsx`
+
+2. Imagens de referência/mockups feitos no Paint que representam a estrutura esperada das telas.
+
+Sua tarefa é desenvolver um dashboard web interativo completo a partir desses materiais e, ao final, entregar um arquivo `.zip` contendo todo o projeto pronto para execução.
+
+IMPORTANTE:
+
+Os mockups NÃO representam o design final. Eles foram feitos apenas para definir:
+
+- estrutura das telas;
+- posição relativa dos elementos;
+- quantidade de gráficos;
+- organização das informações;
+- filtros;
+- menus;
+- botões;
+- hierarquia de navegação.
+
+O design deve ser profissionalizado, moderno e adequado a um dashboard corporativo ESG da FIEMS.
+
+Porém, a organização definida nos mockups deve ser fielmente respeitada.
+
+Não reorganize os conteúdos por iniciativa própria.
+
+Não transforme a solução em outro modelo de dashboard.
+
+Não acrescente novas páginas, indicadores ou gráficos que não tenham sido solicitados.
+
+---
+
+# Objetivo
+
+Construir um dashboard web interativo para visualização dos indicadores ESG contidos na planilha da FIEMS.
+
+O sistema deve:
+
+- ler os dados reais da planilha;
+- tratar e transformar os dados necessários;
+- apresentar os indicadores em gráficos interativos;
+- permitir filtros;
+- possuir navegação entre Ambiental, Social e Governança;
+- respeitar fielmente os mockups fornecidos;
+- possuir interface moderna, corporativa, responsiva e profissional;
+- funcionar completamente após a instalação das dependências;
+- ser entregue como projeto completo em `.zip`.
+
+O resultado esperado não é um protótipo.
+
+É necessário entregar o SOFTWARE FUNCIONAL.
+
+---
+
+# Etapa obrigatória antes da implementação
+
+Antes de escrever código:
+
+1. analise toda a estrutura da planilha;
+2. identifique as abas;
+3. localize os indicadores pelos códigos informados neste prompt;
+4. entenda como os dados estão estruturados em cada aba;
+5. identifique cabeçalhos, linhas auxiliares, células mescladas e metadados;
+6. diferencie dados de apresentação;
+7. identifique:
+   - Casa;
+   - Unidade;
+   - Ano;
+   - Mês;
+   - valor;
+   - unidade de medida;
+   - categorias auxiliares;
+8. verifique diferenças estruturais entre os indicadores;
+9. analise todos os mockups fornecidos;
+10. monte internamente o mapa completo de navegação antes de iniciar o desenvolvimento.
+
+Não presuma que todas as abas seguem exatamente a mesma estrutura.
+
+Não presuma posições fixas de células sem verificar o arquivo.
+
+Não altere os dados originais.
+
+---
+
+# Fonte dos indicadores
+
+Utilize EXCLUSIVAMENTE os dados reais existentes na planilha.
+
+## Ambiental
+
+### Água
+
+Consumo de água:
+
+`A.1.1.1`
+
+Consumo de água per capita:
+
+`A.1.1.2`
+
+---
+
+### Energia
+
+Consumo de energia:
+
+`A.2.1.1`
+
+Consumo de energia per capita:
+
+`A.2.1.2`
+
+Energia gerada por fontes renováveis:
+
+`A.2.2.1`
+
+---
+
+### Consumo
+
+Total de impressões:
+
+`A.3.2.1`
+
+---
+
+### Logística
+
+Consumo de combustível:
+
+`A.4.1.1`
+
+---
+
+### Mudanças Climáticas
+
+Emissões GEE:
+
+`A.5.1.1`
+
+---
+
+# Social
+
+### Pessoas
+
+Número de colaboradores:
+
+`S.1.1.1`
+
+---
+
+### Diversidade
+
+Colaboradores por gênero:
+
+`S.1.1.2`
+
+Colaboradores por faixa etária:
+
+`S.1.1.3`
+
+Colaboradores por raça:
+
+`S.1.2.1`
+
+---
+
+### Treinamento e Desenvolvimento
+
+Horas de capacitação Unindústria:
+
+`S.1.4.2`
+
+---
+
+# Governança
+
+### Compliance
+
+Participantes em treinamento de ética e compliance:
+
+`G.1.1.7`
+
+---
+
+### Transparência
+
+Número de atendimentos da Ouvidoria:
+
+`G.3.2.1`
+
+Número de atendimentos SAC:
+
+`G.3.2.3`
+
+---
+
+# Arquitetura funcional das telas
+
+A organização descrita abaixo deve ser respeitada.
+
+---
+
+# 1. Tela inicial
+
+A tela inicial possui três grandes opções dispostas verticalmente:
+
+1. AMBIENTAL
+2. SOCIAL
+3. GOVERNANÇA
+
+Cada elemento deve funcionar como botão de navegação.
+
+A hierarquia e a disposição vertical devem seguir o mockup.
+
+O design pode ser completamente profissionalizado.
+
+---
+
+# 2. Ambiental
+
+Ao acessar Ambiental, apresentar uma tela de seleção contendo:
+
+- botão INÍCIO;
+- título AMBIENTAL;
+- ÁGUA;
+- ENERGIA;
+- CONSUMO;
+- LOGÍSTICA;
+- MUDANÇAS CLIMÁTICAS.
+
+Respeitar a disposição mostrada no mockup:
+
+Linha superior:
+
+- Água;
+- Energia;
+- Consumo.
+
+Linha inferior:
+
+- Logística;
+- Mudanças Climáticas.
+
+---
+
+# 2.1 Água
+
+Estrutura:
+
+- menu lateral esquerdo;
+- separação visual entre menu e conteúdo;
+- botão INÍCIO;
+- navegação para:
+  - Energia;
+  - Consumo;
+  - Logística;
+  - Mudanças Climáticas.
+
+Filtros no topo:
+
+- CASA;
+- ANO.
+
+Título:
+
+ÁGUA
+
+Conteúdo:
+
+Dois gráficos lado a lado:
+
+### Consumo de Água
+
+Fonte:
+
+`A.1.1.1`
+
+### Consumo de Água per capita
+
+Fonte:
+
+`A.1.1.2`
+
+Os filtros devem atualizar ambos os gráficos.
+
+---
+
+# 2.2 Energia
+
+Menu lateral contendo:
+
+- INÍCIO;
+- Água;
+- Consumo;
+- Logística;
+- Mudanças Climáticas.
+
+Filtros:
+
+- CASA;
+- ANO.
+
+Título:
+
+ENERGIA
+
+Conteúdo:
+
+Na parte superior:
+
+- Consumo de Energia;
+- Consumo de Energia per capita.
+
+Na parte inferior, centralizado:
+
+- Energia gerada por fontes renováveis.
+
+Fontes:
+
+Consumo de Energia:
+
+`A.2.1.1`
+
+Consumo de Energia per capita:
+
+`A.2.1.2`
+
+Energia renovável:
+
+`A.2.2.1`
+
+---
+
+# 2.3 Consumo
+
+Menu lateral contendo:
+
+- INÍCIO;
+- Água;
+- Energia;
+- Logística;
+- Mudanças Climáticas.
+
+Filtros:
+
+- CASA;
+- ANO.
+
+Título:
+
+CONSUMO
+
+Conteúdo:
+
+Um gráfico principal:
+
+### Total de Impressões
+
+Fonte:
+
+`A.3.2.1`
+
+---
+
+# 2.4 Logística
+
+Menu lateral contendo:
+
+- INÍCIO;
+- Água;
+- Energia;
+- Consumo;
+- Mudanças Climáticas.
+
+Filtros:
+
+- CASA;
+- ANO.
+
+Título:
+
+LOGÍSTICA
+
+Conteúdo:
+
+Um gráfico principal:
+
+### Consumo de Combustível
+
+Fonte:
+
+`A.4.1.1`
+
+Se os dados possuírem diferentes tipos de combustível, representá-los de maneira visualmente adequada sem perder essa dimensão.
+
+---
+
+# 2.5 Mudanças Climáticas
+
+Menu lateral contendo:
+
+- INÍCIO;
+- Água;
+- Energia;
+- Consumo;
+- Logística.
+
+Filtros:
+
+- CASA;
+- ANO.
+
+Título:
+
+MUDANÇAS CLIMÁTICAS
+
+Conteúdo:
+
+Um gráfico principal:
+
+### Emissões GEE
+
+Fonte:
+
+`A.5.1.1`
+
+Caso existam Escopo 1 e Escopo 2 nos dados, preservar essa diferenciação no gráfico.
+
+---
+
+# 3. Social
+
+Tela de entrada contendo:
+
+- botão INÍCIO;
+- título SOCIAL;
+- PESSOAS;
+- DIVERSIDADE;
+- TREINAMENTO E DESENVOLVIMENTO.
+
+As três opções devem permanecer horizontalmente conforme o mockup.
+
+---
+
+# 3.1 Pessoas
+
+Menu lateral:
+
+- INÍCIO;
+- Diversidade;
+- Treinamento e Desenvolvimento.
+
+Filtros:
+
+- CASA;
+- ANO.
+
+Título:
+
+PESSOAS
+
+Conteúdo:
+
+### Número de Colaboradores
+
+Fonte:
+
+`S.1.1.1`
+
+Um gráfico principal centralizado.
+
+---
+
+# 3.2 Diversidade
+
+Menu lateral:
+
+- INÍCIO;
+- Pessoas;
+- Treinamento e Desenvolvimento.
+
+Filtros:
+
+- CASA;
+- ANO.
+
+Título:
+
+DIVERSIDADE
+
+Conteúdo:
+
+Dois gráficos na parte superior:
+
+### Colaboradores por Gênero
+
+Fonte:
+
+`S.1.1.2`
+
+### Colaboradores por Faixa Etária
+
+Fonte:
+
+`S.1.1.3`
+
+Um gráfico centralizado abaixo:
+
+### Colaboradores por Raça
+
+Fonte:
+
+`S.1.2.1`
+
+---
+
+# 3.3 Treinamento e Desenvolvimento
+
+Menu lateral:
+
+- INÍCIO;
+- Pessoas;
+- Diversidade.
+
+Filtros:
+
+- CASA;
+- ANO.
+
+Título:
+
+TREINAMENTO E DESENVOLVIMENTO
+
+Conteúdo:
+
+### Horas de Capacitação Unindústria
+
+Fonte:
+
+`S.1.4.2`
+
+Um gráfico principal centralizado.
+
+---
+
+# 4. Governança
+
+Tela de entrada contendo:
+
+- botão INÍCIO;
+- título GOVERNANÇA;
+- COMPLIANCE;
+- TRANSPARÊNCIA.
+
+As duas opções devem permanecer lado a lado conforme o mockup.
+
+---
+
+# 4.1 Compliance
+
+Menu lateral:
+
+- INÍCIO;
+- Transparência.
+
+Filtro:
+
+- ANO.
+
+IMPORTANTE:
+
+Não adicionar filtro CASA nessa tela.
+
+Título:
+
+COMPLIANCE
+
+Conteúdo:
+
+### Participantes em Treinamento de Ética e Compliance
+
+Fonte:
+
+`G.1.1.7`
+
+Um gráfico principal centralizado.
+
+---
+
+# 4.2 Transparência
+
+Menu lateral:
+
+- INÍCIO;
+- Compliance.
+
+Filtro:
+
+- ANO.
+
+IMPORTANTE:
+
+Não adicionar filtro CASA nessa tela.
+
+Título:
+
+TRANSPARÊNCIA
+
+Conteúdo:
+
+Dois gráficos lado a lado:
+
+### Número de Atendimentos — Ouvidoria
+
+Fonte:
+
+`G.3.2.1`
+
+### Número de Atendimentos — SAC
+
+Fonte:
+
+`G.3.2.3`
+
+---
+
+# Comportamento dos filtros
+
+Os filtros devem utilizar somente valores existentes na planilha.
+
+Não criar valores artificiais.
+
+## CASA
+
+Carregar dinamicamente as Casas existentes nos dados relevantes daquela tela.
+
+Deve existir também uma opção equivalente a:
+
+`Todas`
+
+quando tecnicamente apropriado.
+
+## ANO
+
+Carregar dinamicamente os anos disponíveis para aquele indicador/tela.
+
+Deve existir opção de visualização agregada quando isso fizer sentido.
+
+Os filtros devem atualizar os gráficos imediatamente.
+
+Os filtros da mesma tela devem funcionar de forma combinada.
+
+---
+
+# Tratamento temporal
+
+Quando houver dados mensais, manter a sequência cronológica correta:
+
+Janeiro
+Fevereiro
+Março
+Abril
+Maio
+Junho
+Julho
+Agosto
+Setembro
+Outubro
+Novembro
+Dezembro
+
+Nunca ordenar meses alfabeticamente.
+
+Quando houver diferentes anos, manter ordenação cronológica.
+
+---
+
+# Tratamento dos dados
+
+Criar uma camada clara entre:
+
+1. leitura do Excel;
+2. transformação;
+3. dados utilizados pela interface.
+
+Não espalhar lógica de parsing do Excel pelos componentes visuais.
+
+Centralizar a transformação dos dados.
+
+Quando possível, normalizar os dados para uma estrutura consistente.
+
+Exemplo conceitual:
+
+- dimensão;
+- tema;
+- indicador;
+- código;
+- Casa;
+- Unidade;
+- Ano;
+- Mês;
+- categoria;
+- valor;
+- unidade.
+
+Não é obrigatório usar exatamente esse schema caso os dados exijam outra modelagem.
+
+Analise primeiro.
+
+---
+
+# Importante sobre dados ausentes
+
+A planilha possui valores em branco e possivelmente caracteres como:
+
+`-`
+
+Não transforme automaticamente isso em zero.
+
+Considere como dado ausente quando o contexto indicar ausência de informação.
+
+O sistema não deve:
+
+- gerar `NaN`;
+- gerar `undefined`;
+- gerar `Infinity`;
+- quebrar gráficos;
+- apresentar valores falsos.
+
+---
+
+# Duplicidades
+
+Não remova registros automaticamente apenas porque parecem duplicados.
+
+Primeiro entenda a estrutura do indicador.
+
+Caso existam registros perfeitamente duplicados e fique evidente que são inconsistências da fonte, trate de forma segura e documente a decisão.
+
+Nunca altere a planilha original.
+
+---
+
+# Valores e unidades
+
+Preservar as unidades corretas de cada indicador.
+
+Exemplos encontrados no contexto incluem dados como:
+
+- m³;
+- kWh;
+- MWh;
+- litros;
+- tCO₂e;
+- pessoas;
+- horas;
+- impressões.
+
+Não assumir unidades.
+
+Obter a unidade do indicador analisando a planilha.
+
+Apresentar unidades:
+
+- nos eixos;
+- tooltips;
+- valores;
+- legendas;
+
+quando aplicável.
+
+---
+
+# Gráficos
+
+Escolher o tipo de gráfico mais adequado para cada informação.
+
+Exemplos possíveis:
+
+- linha para evolução temporal;
+- barras para comparação;
+- barras agrupadas ou empilhadas;
+- donut/pizza apenas quando realmente adequado para composição;
+- outros formatos quando justificáveis.
+
+Não utilizar gráficos apenas por estética.
+
+Priorizar:
+
+- interpretação rápida;
+- comparação;
+- legibilidade;
+- consistência.
+
+Todos os gráficos devem possuir:
+
+- título;
+- tooltip;
+- legenda quando necessária;
+- rótulos adequados;
+- formatação numérica;
+- estados sem dados;
+- responsividade.
+
+---
+
+# Design
+
+O Paint representa apenas a estrutura.
+
+Crie um design completamente profissional.
+
+O dashboard deve transmitir:
+
+- ESG;
+- sustentabilidade;
+- institucionalidade;
+- clareza;
+- confiança;
+- modernidade.
+
+Criar uma identidade visual consistente entre:
+
+- Ambiental;
+- Social;
+- Governança.
+
+É permitido utilizar cores distintas para representar as três dimensões, desde que o conjunto permaneça corporativo e harmônico.
+
+Evitar:
+
+- aparência genérica de template;
+- excesso de sombras;
+- gradientes exagerados;
+- cores neon;
+- excesso de elementos decorativos;
+- poluição visual;
+- gráficos 3D;
+- componentes desnecessários.
+
+Não inventar logotipos ou elementos oficiais da FIEMS caso eles não estejam disponíveis nos arquivos fornecidos.
+
+---
+
+# Fidelidade aos mockups
+
+Esta é uma regra crítica.
+
+O design pode mudar.
+
+A organização NÃO.
+
+Devem permanecer coerentes com os mockups:
+
+- localização geral da navegação;
+- menus laterais;
+- posição dos filtros;
+- quantidade de gráficos;
+- relação entre gráficos;
+- organização superior/inferior;
+- agrupamento das áreas;
+- hierarquia das telas.
+
+Exemplo:
+
+Se o mockup de Energia possui:
+
+2 gráficos superiores
++
+1 gráfico inferior centralizado
+
+não transformar em:
+
+3 gráficos lado a lado.
+
+---
+
+# Navegação
+
+A navegação não deve provocar reload completo da aplicação quando a stack escolhida permitir navegação client-side.
+
+O usuário deve conseguir transitar facilmente entre as telas.
+
+Estrutura conceitual:
+
+INÍCIO
+
+→ AMBIENTAL
+   → Água
+   → Energia
+   → Consumo
+   → Logística
+   → Mudanças Climáticas
+
+→ SOCIAL
+   → Pessoas
+   → Diversidade
+   → Treinamento e Desenvolvimento
+
+→ GOVERNANÇA
+   → Compliance
+   → Transparência
+
+Os botões INÍCIO devem retornar à tela inicial global.
+
+---
+
+# Responsividade
+
+O layout principal deverá ser otimizado prioritariamente para desktop/notebook, pois é um dashboard corporativo.
+
+Ainda assim, deve funcionar adequadamente em:
+
+- notebooks;
+- desktops;
+- tablets;
+- dispositivos móveis.
+
+Em telas menores:
+
+- não sobrepor textos;
+- não cortar filtros;
+- não deixar gráficos ilegíveis;
+- adaptar menu lateral quando necessário;
+- preservar a hierarquia original.
+
+Responsividade não significa alterar a arquitetura funcional.
+
+---
+
+# Acessibilidade
+
+Implementar:
+
+- contraste adequado;
+- foco visível;
+- labels;
+- navegação por teclado;
+- HTML semântico;
+- atributos ARIA quando necessários;
+- áreas clicáveis adequadas;
+- textos legíveis.
+
+---
+
+# Stack
+
+Antes de escolher tecnologias, analise o objetivo do projeto.
+
+Escolha uma stack web moderna, estável, amplamente utilizada e adequada para:
+
+- dashboard;
+- Excel;
+- gráficos interativos;
+- responsividade;
+- manutenção futura.
+
+Não escolha tecnologias experimentais sem necessidade.
+
+Prefira simplicidade operacional.
+
+Evite criar backend separado caso ele não seja necessário.
+
+Se for possível processar o Excel durante build/startup e disponibilizar os dados de maneira eficiente e segura, avalie essa alternativa.
+
+Documente brevemente a decisão técnica.
+
+---
+
+# Excel
+
+O arquivo Excel deve fazer parte do projeto em um local organizado, por exemplo uma pasta de dados.
+
+Não obrigue o usuário a copiar manualmente valores da planilha.
+
+O software deve possuir uma estratégia reproduzível para extrair os dados do Excel.
+
+Não hardcode centenas de valores manualmente dentro dos componentes.
+
+Se for criada uma etapa de transformação que gere JSON ou outro formato intermediário:
+
+- inclua o script responsável;
+- inclua a fonte Excel;
+- documente como regenerar os dados;
+- execute o processo antes da entrega;
+- inclua os dados processados necessários para execução.
+
+---
+
+# Performance
+
+Evitar:
+
+- ler toda a planilha repetidamente em cada interação;
+- processamento pesado no navegador sem necessidade;
+- reprocessamento dos mesmos dados;
+- renders desnecessários.
+
+Os dados devem ser carregados/processados de maneira eficiente.
+
+---
+
+# Segurança
+
+Mesmo sendo um dashboard baseado em arquivo local:
+
+- validar entradas;
+- não executar conteúdo arbitrário vindo do Excel;
+- não expor caminhos locais;
+- não incluir secrets;
+- não criar credenciais falsas;
+- não inserir tokens;
+- não depender de serviços externos desnecessários.
+
+Não colocar secrets no código.
+
+---
+
+# Estados da interface
+
+Implementar adequadamente:
+
+- carregamento;
+- erro;
+- ausência de dados;
+- filtros sem resultado;
+- dados indisponíveis.
+
+Nunca deixar um gráfico simplesmente vazio sem explicação.
+
+Exemplo:
+
+`Não há dados disponíveis para os filtros selecionados.`
+
+---
+
+# Formatação
+
+Utilizar formatação adequada para pt-BR quando fizer sentido:
+
+- números;
+- milhares;
+- decimais;
+- meses;
+- textos.
+
+Exemplo:
+
+`1.234.567`
+
+em vez de:
+
+`1234567`
+
+quando aplicável.
+
+---
+
+# Estrutura do projeto
+
+Organize profissionalmente o código.
+
+Separar responsabilidades como:
+
+- componentes;
+- páginas/rotas;
+- gráficos;
+- navegação;
+- filtros;
+- tipos;
+- utilitários;
+- processamento de dados;
+- dados processados;
+- testes.
+
+Não criar um único arquivo gigante contendo toda a aplicação.
+
+Reutilizar componentes.
+
+Exemplo:
+
+- seletor de Ano;
+- seletor de Casa;
+- sidebar;
+- cards;
+- container de gráfico;
+- estado sem dados.
+
+Não duplicar componentes iguais entre Ambiental, Social e Governança.
+
+---
+
+# Regras e restrições
+
+- preservar fielmente a estrutura dos mockups;
+- não adicionar indicadores que não foram solicitados;
+- não remover indicadores solicitados;
+- não inventar dados;
+- não gerar dados fake;
+- não criar placeholders como solução final;
+- não usar mocks na versão final;
+- não alterar a planilha original;
+- não presumir estrutura da planilha sem analisá-la;
+- não criar números artificiais;
+- não substituir dados ausentes por zero sem justificativa;
+- evitar duplicação de código;
+- reutilizar componentes;
+- manter arquitetura simples;
+- evitar dependências desnecessárias;
+- não expor secrets;
+- não incluir credenciais;
+- não criar soluções provisórias;
+- não deixar TODOs essenciais;
+- não entregar páginas incompletas;
+- não entregar apenas protótipo visual.
+
+---
+
+# Qualidade do código
+
+O projeto final deverá possuir:
+
+- código limpo;
+- nomes claros;
+- organização consistente;
+- tipagem adequada quando a linguagem permitir;
+- tratamento de erros;
+- validações;
+- separação de responsabilidades;
+- performance adequada;
+- acessibilidade;
+- responsividade;
+- documentação mínima necessária.
+
+---
+
+# Testes
+
+Crie testes úteis para as partes críticas.
+
+Priorizar testes sobre:
+
+1. processamento da planilha;
+2. identificação dos indicadores;
+3. filtros;
+4. agregações;
+5. ordenação dos meses;
+6. valores ausentes;
+7. navegação crítica;
+8. componentes essenciais.
+
+Não criar testes apenas para aumentar números artificialmente.
+
+---
+
+# README
+
+Criar um `README.md` claro contendo:
+
+## Sobre o projeto
+
+Descrição do dashboard.
+
+## Requisitos
+
+Versões necessárias das ferramentas.
+
+## Instalação
+
+Comandos exatos.
+
+## Desenvolvimento
+
+Como iniciar localmente.
+
+## Build
+
+Como gerar versão de produção.
+
+## Dados
+
+Explicar:
+
+- onde está a planilha;
+- como os indicadores são extraídos;
+- como atualizar a planilha;
+- como regenerar os dados processados.
+
+## Estrutura
+
+Resumo das principais pastas.
+
+## Indicadores implementados
+
+Listar todos os códigos utilizados.
+
+---
+
+# Validação obrigatória
+
+Antes de concluir:
+
+1. instalar dependências em ambiente limpo;
+2. executar o processamento da planilha;
+3. executar lint;
+4. executar typecheck, caso aplicável;
+5. executar todos os testes;
+6. executar build de produção;
+7. iniciar a aplicação;
+8. validar todas as rotas;
+9. validar todos os filtros;
+10. validar todos os gráficos;
+11. verificar console do navegador;
+12. corrigir warnings relevantes;
+13. verificar que nenhum gráfico gera NaN;
+14. verificar estados sem dados;
+15. conferir os dados apresentados contra a planilha;
+16. verificar responsividade;
+17. confirmar que nenhum dado foi inventado.
+
+Não considerar a tarefa concluída enquanto houver erros nesses processos.
+
+---
+
+# Auditoria visual obrigatória
+
+Compare cada tela implementada com os mockups fornecidos.
+
+Confira:
+
+- número de elementos;
+- posição relativa;
+- menu;
+- filtros;
+- gráficos;
+- hierarquia;
+- títulos;
+- agrupamentos.
+
+Corrigir qualquer divergência estrutural antes da entrega.
+
+---
+
+# Critério de aceite
+
+Considerar o projeto concluído somente quando:
+
+- todos os indicadores solicitados estiverem implementados;
+- todos utilizarem dados reais da planilha;
+- os filtros funcionarem;
+- todas as telas funcionarem;
+- a navegação estiver completa;
+- a estrutura dos mockups tiver sido respeitada;
+- o design estiver profissional;
+- não houver páginas quebradas;
+- não houver valores falsos;
+- lint estiver aprovado;
+- typecheck estiver aprovado quando aplicável;
+- testes estiverem aprovados;
+- build de produção estiver aprovado;
+- o README estiver completo;
+- o projeto puder ser executado em uma máquina limpa seguindo apenas o README.
+
+---
+
+# Entrega obrigatória
+
+Ao finalizar:
+
+1. mantenha a planilha necessária dentro do projeto;
+2. remova arquivos temporários;
+3. remova caches;
+4. remova artefatos desnecessários;
+5. não inclua pastas de dependências instaladas se puderem ser regeneradas;
+6. garanta que arquivos de lock de dependências estejam incluídos;
+7. compacte TODO o projeto em um único arquivo `.zip`.
+
+Nome sugerido:
+
+`dashboard-indicadores-fiems.zip`
+
+O ZIP deve conter o projeto completo e executável.
+
+Não entregue apenas trechos de código.
+
+Não entregue apenas instruções.
+
+Não entregue apenas um relatório dizendo o que foi feito.
+
+Não entregue apenas screenshots.
+
+Não pare na análise.
+
+DESENVOLVA, VALIDE E ENTREGUE O SOFTWARE COMPLETO.
+
+Ao final da execução, devolva:
+
+- o arquivo `.zip` do projeto;
+- um resumo curto da stack utilizada;
+- comandos para rodar;
+- resultado de lint;
+- resultado de typecheck;
+- resultado dos testes;
+- resultado do build;
+- breve descrição de como os dados da planilha foram processados.

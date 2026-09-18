@@ -1,0 +1,102 @@
+{
+  "verified": 2929,
+  "indicators": [
+    {
+      "code": "A.1.1.1",
+      "sheet": "AMBIENTAL.COD A.1.1.1",
+      "verified": 1056,
+      "result": "passed"
+    },
+    {
+      "code": "A.1.1.2",
+      "sheet": "AMBIENTAL.COD A.1.1.2",
+      "verified": 4,
+      "result": "passed"
+    },
+    {
+      "code": "A.2.1.1",
+      "sheet": "AMBIENTAL.COD A.2.1.1",
+      "verified": 1252,
+      "result": "passed"
+    },
+    {
+      "code": "A.2.1.2",
+      "sheet": "AMBIENTAL.COD A.2.1.2",
+      "verified": 4,
+      "result": "passed"
+    },
+    {
+      "code": "A.2.2.1",
+      "sheet": "AMBIENTAL.COD A.2.2.1",
+      "verified": 122,
+      "result": "passed"
+    },
+    {
+      "code": "A.3.2.1",
+      "sheet": "AMBIENTAL.COD A.3.2.1",
+      "verified": 226,
+      "result": "passed"
+    },
+    {
+      "code": "A.4.1.1",
+      "sheet": "AMBIENTAL.COD A.4.1.1",
+      "verified": 29,
+      "result": "passed"
+    },
+    {
+      "code": "A.5.1.1",
+      "sheet": "AMBIENTAL.COD A.5.1.1",
+      "verified": 18,
+      "result": "passed"
+    },
+    {
+      "code": "S.1.1.1",
+      "sheet": "SOCIAL.COD S.1.1.1",
+      "verified": 16,
+      "result": "passed"
+    },
+    {
+      "code": "S.1.1.2",
+      "sheet": "SOCIAL.COD S.1.1.2",
+      "verified": 32,
+      "result": "passed"
+    },
+    {
+      "code": "S.1.1.3",
+      "sheet": "SOCIAL.COD S.1.1.3",
+      "verified": 48,
+      "result": "passed"
+    },
+    {
+      "code": "S.1.2.1",
+      "sheet": "SOCIAL.COD S.1.2.1",
+      "verified": 96,
+      "result": "passed"
+    },
+    {
+      "code": "S.1.4.2",
+      "sheet": "SOCIAL.COD S.1.4.2",
+      "verified": 15,
+      "result": "passed"
+    },
+    {
+      "code": "G.1.1.7",
+      "sheet": "GOV.COD G.1.1.6 e G.1.1.7",
+      "verified": 4,
+      "result": "passed"
+    },
+    {
+      "code": "G.3.2.1",
+      "sheet": "GOV.COD G.3.2.1 e G.3.2.2",
+      "verified": 4,
+      "result": "passed"
+    },
+    {
+      "code": "G.3.2.3",
+      "sheet": "GOV.COD G.3.2.3 e G.3.2.4",
+      "verified": 3,
+      "result": "passed"
+    }
+  ],
+  "result": "passed"
+}

@@ -1,0 +1,641 @@
+# Área de Configurações e Atualização da Base de Dados
+
+O sistema deverá possuir uma área administrativa de **CONFIGURAÇÕES**, destinada principalmente à atualização da planilha que alimenta o dashboard.
+
+Essa funcionalidade é obrigatória.
+
+O objetivo é permitir que, futuramente, um usuário autorizado atualize os dados do dashboard simplesmente importando uma nova versão da planilha, sem precisar:
+
+- editar código;
+- substituir arquivos manualmente dentro do projeto;
+- executar scripts manualmente;
+- alterar JSONs;
+- recompilar dados manualmente.
+
+A atualização deverá ser realizada pelo próprio sistema.
+
+---
+
+# Acesso às Configurações
+
+Criar uma rota/tela específica de configurações.
+
+Exemplo conceitual:
+
+`/configuracoes`
+
+ou equivalente de acordo com a arquitetura escolhida.
+
+A área de Configurações NÃO deve interferir na organização das telas ESG definida pelos mockups.
+
+Portanto:
+
+- não transformar CONFIGURAÇÕES em uma quarta dimensão junto de Ambiental, Social e Governança;
+- não alterar a organização dos botões existentes;
+- não modificar os layouts definidos pelos mockups para acomodar essa funcionalidade.
+
+Adicionar um acesso secundário e discreto, por exemplo:
+
+- ícone de engrenagem;
+- botão "Configurações";
+- item utilitário no cabeçalho global.
+
+Escolha a alternativa mais adequada ao design final.
+
+---
+
+# Tela de Configurações
+
+A tela deverá possuir, no mínimo, uma seção:
+
+## Base de Dados
+
+Exibir informações sobre a base atualmente utilizada:
+
+- nome do arquivo;
+- data da última atualização;
+- data/hora da última importação;
+- tamanho do arquivo;
+- quantidade de indicadores reconhecidos;
+- quantidade de registros processados, quando aplicável;
+- status da última importação.
+
+Exemplo conceitual:
+
+Base atual:
+Sistema Indicadores_FIEMS_2026.xlsx
+
+Última atualização:
+18/09/2026 10:32
+
+Indicadores reconhecidos:
+16
+
+Status:
+Importação realizada com sucesso
+
+---
+
+# Importação de nova planilha
+
+Disponibilizar uma interface para:
+
+`Selecionar planilha`
+
+e posteriormente:
+
+`Importar e atualizar dados`
+
+Aceitar exclusivamente os formatos realmente suportados pelo parser implementado, preferencialmente:
+
+- `.xlsx`;
+- e `.xlsm` somente caso a biblioteca utilizada consiga processá-lo de forma segura sem executar macros.
+
+Não aceitar formatos arbitrários.
+
+---
+
+# Fluxo obrigatório de importação
+
+O processo NÃO deve substituir imediatamente a base atual.
+
+Implementar o fluxo:
+
+1. usuário seleciona o arquivo;
+2. sistema recebe o arquivo;
+3. sistema valida o arquivo;
+4. sistema analisa sua estrutura;
+5. sistema procura os indicadores esperados;
+6. sistema valida se os dados necessários podem ser extraídos;
+7. sistema apresenta o resultado da validação;
+8. somente se a validação for aprovada, permitir confirmar a atualização;
+9. processar os novos dados;
+10. substituir a base ativa de forma segura;
+11. atualizar o dashboard;
+12. informar claramente que a operação foi concluída.
+
+Fluxo conceitual:
+
+Selecionar arquivo
+        ↓
+Validar arquivo
+        ↓
+Analisar indicadores
+        ↓
+Mostrar resultado
+        ↓
+Confirmar atualização
+        ↓
+Processar
+        ↓
+Atualizar base
+        ↓
+Dashboard passa a utilizar os novos dados
+
+---
+
+# Indicadores obrigatórios durante a validação
+
+A importação deverá procurar os seguintes indicadores:
+
+## Ambiental
+
+- A.1.1.1
+- A.1.1.2
+- A.2.1.1
+- A.2.1.2
+- A.2.2.1
+- A.3.2.1
+- A.4.1.1
+- A.5.1.1
+
+## Social
+
+- S.1.1.1
+- S.1.1.2
+- S.1.1.3
+- S.1.2.1
+- S.1.4.2
+
+## Governança
+
+- G.1.1.7
+- G.3.2.1
+- G.3.2.3
+
+---
+
+# Validação da estrutura
+
+Não validar apenas pelo nome físico da aba.
+
+Sempre que possível, localizar e confirmar o indicador por seu código e conteúdo.
+
+Isso é importante porque versões futuras da planilha podem sofrer pequenas alterações de:
+
+- nome de aba;
+- posição;
+- linhas introdutórias;
+- formatação;
+- células mescladas.
+
+O sistema deve tolerar alterações puramente visuais quando os dados continuarem identificáveis.
+
+Por outro lado, NÃO tentar adivinhar dados quando a estrutura necessária tiver mudado de forma incompatível.
+
+Nesse caso, rejeitar a importação e apresentar claramente o motivo.
+
+---
+
+# Resultado da validação antes da atualização
+
+Antes de substituir a base existente, mostrar um resumo da nova planilha.
+
+Exemplo:
+
+Planilha analisada com sucesso.
+
+Indicadores encontrados: 16 de 16
+Anos encontrados: 2022, 2023, 2024, 2025, 2026
+Casas encontradas: 4
+Registros processáveis: 3.214
+Valores ausentes: 27
+Avisos: 3
+
+Status:
+
+APTA PARA IMPORTAÇÃO
+
+Botão:
+
+`Confirmar atualização`
+
+Caso existam problemas:
+
+Status:
+
+IMPORTAÇÃO BLOQUEADA
+
+Exibir os problemas encontrados.
+
+Exemplo:
+
+- indicador A.2.1.1 não encontrado;
+- estrutura de S.1.1.2 incompatível;
+- arquivo Excel inválido.
+
+Não substituir a base atual nesse caso.
+
+---
+
+# Avisos que não necessariamente bloqueiam a importação
+
+Algumas situações podem gerar warnings sem obrigatoriamente invalidar a atualização:
+
+- células vazias;
+- valores "-";
+- anos sem todos os meses;
+- indicadores sem registros;
+- linhas potencialmente duplicadas;
+- novos valores de Casa;
+- novos anos;
+- novas Unidades.
+
+Esses casos devem ser apresentados ao usuário.
+
+Exemplo:
+
+3 avisos encontrados:
+
+- A.1.1.1 contém 8 valores sem informação;
+- A.4.1.1 possui 2 registros possivelmente duplicados;
+- foram encontrados dados de um novo ano: 2027.
+
+Permitir a importação se tecnicamente segura.
+
+---
+
+# Importação atômica
+
+A atualização da planilha deve ser segura.
+
+Nunca:
+
+1. apagar a base atual;
+2. começar o processamento;
+3. descobrir um erro;
+4. deixar o dashboard sem dados.
+
+Utilizar estratégia equivalente a:
+
+Nova planilha
+    ↓
+Arquivo temporário
+    ↓
+Validação
+    ↓
+Processamento
+    ↓
+Dados processados válidos
+    ↓
+Troca atômica da base atual
+
+A versão anterior deve continuar ativa até que todo o processo da nova importação tenha sido concluído com sucesso.
+
+---
+
+# Backup da versão anterior
+
+Antes de substituir uma base válida, manter pelo menos a versão imediatamente anterior.
+
+Exemplo conceitual:
+
+data/
+  current/
+  previous/
+
+ou estrutura equivalente.
+
+Não é obrigatório implementar um sistema complexo de versionamento.
+
+Entretanto, uma importação malsucedida jamais deve destruir a última base funcional.
+
+---
+
+# Histórico de importações
+
+Registrar um histórico simples das atualizações.
+
+Exibir informações como:
+
+| Data | Arquivo | Status | Registros |
+|------|---------|--------|-----------|
+| 18/09/2026 10:32 | indicadores_2026.xlsx | Sucesso | 3.214 |
+| 01/09/2026 14:12 | indicadores_2026.xlsx | Sucesso | 3.087 |
+
+Registrar também importações rejeitadas, quando pertinente.
+
+Não armazenar informações sensíveis desnecessárias.
+
+---
+
+# Atualização automática do dashboard
+
+Depois de uma importação concluída com sucesso:
+
+- os dados novos devem tornar-se a fonte oficial do dashboard;
+- os filtros devem reconhecer automaticamente novos anos;
+- filtros de Casa devem reconhecer automaticamente novas Casas;
+- novos meses devem aparecer nas séries;
+- os gráficos devem refletir a nova base;
+- não deve ser necessário editar código.
+
+Exemplo:
+
+Se a planilha original possui:
+
+2022
+2023
+2024
+2025
+2026
+
+e posteriormente for importada uma planilha contendo:
+
+2027
+
+o filtro ANO deverá passar a oferecer 2027 automaticamente.
+
+Nenhuma alteração de código deverá ser necessária.
+
+---
+
+# Atualizações na estrutura dos dados
+
+Os dados devem permanecer dirigidos pela planilha.
+
+Não hardcode:
+
+- anos;
+- Casas;
+- Unidades;
+- meses disponíveis;
+- valores;
+- categorias de gênero;
+- faixas etárias;
+- raças;
+- combustíveis;
+- Escopos GEE;
+
+quando essas informações puderem ser extraídas da fonte.
+
+O sistema deve conseguir absorver novas ocorrências válidas dessas categorias automaticamente.
+
+---
+
+# Persistência da atualização
+
+Esta é uma funcionalidade real, portanto o upload não pode existir apenas no estado temporário do navegador.
+
+A nova base deve permanecer ativa após:
+
+- atualizar a página;
+- fechar o navegador;
+- reiniciar a aplicação;
+- reiniciar o servidor.
+
+Se a stack inicialmente considerada for exclusivamente frontend e impossibilitar persistência segura do arquivo importado, implemente uma camada server-side mínima para suportar:
+
+- upload;
+- validação;
+- processamento;
+- persistência;
+- leitura da base ativa.
+
+Não simular a funcionalidade com armazenamento temporário no navegador.
+
+Não utilizar:
+
+- localStorage como banco da planilha;
+- sessionStorage como armazenamento definitivo;
+- Base64 gigantes no frontend.
+
+---
+
+# Processamento após upload
+
+Depois da importação, utilizar o mesmo pipeline de processamento empregado pela planilha inicial.
+
+Não criar dois parsers diferentes:
+
+- um para a planilha original;
+- outro para planilhas importadas pela interface.
+
+Deve existir uma única lógica reutilizável:
+
+Excel
+  ↓
+Parser
+  ↓
+Validação
+  ↓
+Normalização
+  ↓
+Dados do dashboard
+
+Isso evita inconsistências.
+
+---
+
+# Integridade da fonte
+
+A planilha enviada pelo usuário deve permanecer disponível como fonte bruta da importação.
+
+O dashboard não deve modificar silenciosamente o arquivo enviado.
+
+Os tratamentos devem ocorrer na camada processada.
+
+Separar conceitualmente:
+
+RAW
+↓
+NORMALIZAÇÃO
+↓
+DADOS DO DASHBOARD
+
+---
+
+# Segurança do upload
+
+Implementar validações server-side.
+
+O frontend não pode ser considerado barreira de segurança.
+
+Validar:
+
+- extensão;
+- MIME type quando possível;
+- tamanho máximo;
+- estrutura real do arquivo;
+- integridade do Excel.
+
+Definir um limite de upload razoável, configurável.
+
+Não executar:
+
+- macros;
+- fórmulas arbitrárias;
+- scripts;
+- conteúdo executável presente no arquivo.
+
+Para `.xlsm`, caso suportado, apenas extrair os dados necessários sem executar macros VBA.
+
+Sanitizar nomes de arquivo.
+
+Nunca utilizar diretamente o nome enviado pelo usuário para construir caminhos sem tratamento.
+
+Prevenir:
+
+- path traversal;
+- sobrescrita arbitrária de arquivos;
+- upload para diretórios não autorizados;
+- arquivos malformados;
+- consumo excessivo de memória.
+
+---
+
+# Controle de concorrência
+
+Evitar duas importações simultâneas que possam corromper a base.
+
+Durante uma importação:
+
+- bloquear uma segunda atualização;
+- apresentar estado "Processando";
+- finalizar ou falhar corretamente antes de permitir outra operação.
+
+---
+
+# Feedback visual
+
+A tela de Configurações deve apresentar claramente os estados:
+
+### Arquivo selecionado
+
+`Sistema Indicadores 2027.xlsx`
+
+### Validando
+
+`Validando estrutura da planilha...`
+
+### Processando
+
+`Processando indicadores...`
+
+### Sucesso
+
+`Base atualizada com sucesso.`
+
+### Falha
+
+`Não foi possível atualizar a base.`
+
+Mostrar detalhes úteis do erro sem expor:
+
+- stack traces;
+- caminhos internos do servidor;
+- secrets;
+- informações técnicas sensíveis.
+
+---
+
+# Confirmação antes da substituição
+
+A troca da base deve exigir ação explícita do usuário depois da validação.
+
+Exemplo:
+
+`Confirmar atualização da base`
+
+Não substituir a fonte atual imediatamente após selecionar o arquivo.
+
+---
+
+# Possibilidade de cancelar
+
+Antes da confirmação definitiva, permitir:
+
+`Cancelar`
+
+Nesse caso:
+
+- descartar o arquivo temporário;
+- preservar integralmente a base atual.
+
+---
+
+# Estado sem planilha
+
+A aplicação entregue já deverá possuir a planilha inicial e funcionar imediatamente.
+
+A área de importação existe para futuras atualizações.
+
+Portanto, na primeira execução após a entrega, o usuário NÃO deve precisar importar a planilha manualmente para conseguir visualizar o dashboard.
+
+---
+
+# README — atualização da base
+
+Acrescentar ao README uma seção:
+
+## Atualizando os dados pelo dashboard
+
+Explicar:
+
+1. acessar Configurações;
+2. selecionar a nova planilha;
+3. aguardar validação;
+4. revisar os avisos;
+5. confirmar;
+6. aguardar processamento;
+7. verificar a nova data da base.
+
+Explicar também:
+
+- formatos aceitos;
+- validações realizadas;
+- localização da base ativa;
+- estratégia de backup;
+- como recuperar a versão anterior manualmente em caso de necessidade.
+
+---
+
+# Testes adicionais obrigatórios da importação
+
+Criar testes para:
+
+1. upload de planilha válida;
+2. arquivo com formato inválido;
+3. Excel corrompido;
+4. planilha sem indicador obrigatório;
+5. planilha com células vazias;
+6. planilha contendo "-";
+7. planilha contendo novo ano;
+8. planilha contendo nova Casa;
+9. falha durante processamento;
+10. preservação da base antiga quando a nova falha;
+11. substituição da base quando a nova é válida;
+12. atualização dos filtros depois da importação;
+13. prevenção de path traversal;
+14. limite de tamanho do upload;
+15. tentativa de importações simultâneas.
+
+---
+
+# Critério adicional de aceite
+
+A funcionalidade de Configurações somente estará concluída se for possível executar este cenário:
+
+1. iniciar o projeto;
+2. abrir o dashboard;
+3. visualizar os dados da planilha original;
+4. acessar Configurações;
+5. selecionar uma nova versão válida do Excel;
+6. validar a planilha;
+7. confirmar a importação;
+8. concluir a atualização;
+9. retornar ao dashboard;
+10. visualizar os novos dados;
+11. atualizar a página;
+12. confirmar que os novos dados continuam disponíveis;
+13. reiniciar a aplicação;
+14. confirmar que os novos dados continuam sendo utilizados.
+
+Também deve ser testado:
+
+1. selecionar uma planilha inválida;
+2. ocorrer falha de validação;
+3. voltar ao dashboard;
+4. confirmar que todos os dados anteriores permanecem funcionando.
+
+A implementação não será considerada completa caso o botão de importação seja apenas visual ou não persista efetivamente a nova base.
